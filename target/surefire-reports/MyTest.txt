@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: MyTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.039 s <<< FAILURE! - in MyTest
+checkWinStart  Time elapsed: 0.008 s  <<< ERROR!
+java.lang.NullPointerException: Cannot read field "player" because "this.boardArr[i][j]" is null
+	at MyTest.checkWinStart(MyTest.java:56)
+
