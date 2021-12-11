@@ -12,20 +12,18 @@ public class Game {
 		this.pressOrder = new GameButton[42];
 	}
 	
-	/*
-	 * Method that checks if the pressed button is a valid move. This is done by checking if the
-	 * pressed button was in the bottom row, or if a button underneath it was pressed. If the move was valid
-	 * it is added into the array of moves.
-	 */
-	public boolean isValid(GameButton clickedButton) {
+	public GameButton placeButton(GameButton clickedButton) {
 		
-		if(clickedButton.col == 5 || boardArr[clickedButton.row][clickedButton.col + 1].pressed == true) {
-			
-			addPressedButton(clickedButton);
-			return true;
-		} 
-
-		return false;
+		GameButton tempButton = null;
+		
+		for(int i = 0; i <= 5; i++) {
+			if(boardArr[clickedButton.row][i].pressed == false) {
+				
+				tempButton = boardArr[clickedButton.row][i];
+			} 
+		}
+		addPressedButton(tempButton);
+		return tempButton;
 	}
 	
 	/*
@@ -69,49 +67,20 @@ public class Game {
 	}
 	
 	/*
-	 * Loops through the grid going columns then rows in a nested for loop. if 4 button pressed by the 
-	 * current player are found this will return true. 
-	 */
-	private boolean checkHorizontal() {
-		
-		int count = 0;
-		// Loops through the entire grid. if a row of 4 is found returns true
-		for(int i = 0; i < 6; i++) {
-			for(int j = 0; j< 7; j++) {
-				
-				if(boardArr[j][i].player == currPlayer) {				   
-					count++;
-					if(count >= 4) {
-						return true;
-					}
-				}
-				else {
-					count = 0;
-				}
-			}
-		}
-		return false;
-	}
-	
-	/*
-	 * Loops through the grid to see if there is a vertical row of 4 buttons pressed by the current player
-	 * If there is, then true is returned. 
+	 *  Helper function of checkWin(). Loops thru the 2d array until it can find a 
+	 *  column with 4 of the same player piece in a row.
 	 */
 	private boolean checkVertical() {
 		
-		int count = 0;
 		// Loops through the entire grid. if a row of 4 is found returns true
 		for(int i = 0; i < 7; i++) {
-			for(int j = 0; j< 6; j++) {
+			for(int j = 0; j< 3; j++) {
+				if(boardArr[i][j].player == currPlayer &&
+						boardArr[i][j].player == boardArr[i][j+1].player &&
+						boardArr[i][j].player == boardArr[i][j+2].player &&
+						boardArr[i][j].player == boardArr[i][j+3].player) {
 				
-				if(boardArr[i][j].player == currPlayer) {				   
-					count++;
-					if(count >= 4) {
-						return true;
-					}
-				}
-				else {
-					count = 0;
+					return true;
 				}
 			}
 		}
@@ -119,42 +88,62 @@ public class Game {
 	}
 	
 	/*
-	 * Manually checks for every single possible diagonal win condition. might replace with a 2 for loops later
+	 * Helper function of checkWin(). Loops thru the 2d array until it can find a 
+	 * row with 4 of the sane player piece in a column.
 	 */
-	private boolean checkDiagonal() {
-		if(boardArr[3][0].player == boardArr[4][1].player && boardArr[4][1].player == boardArr[5][2].player && boardArr[5][2].player == boardArr[6][3].player && boardArr[6][3].player == currPlayer) {return true;}
-		if(boardArr[2][0].player == boardArr[3][1].player && boardArr[3][1].player == boardArr[4][2].player && boardArr[4][2].player == boardArr[5][3].player && boardArr[5][3].player == currPlayer) {return true;}
-		if(boardArr[1][0].player == boardArr[2][1].player && boardArr[2][1].player == boardArr[3][2].player && boardArr[3][2].player == boardArr[4][3].player && boardArr[4][3].player == currPlayer) {return true;}
-		if(boardArr[0][0].player == boardArr[1][1].player && boardArr[1][1].player == boardArr[2][2].player && boardArr[2][2].player == boardArr[3][3].player && boardArr[3][3].player == currPlayer) {return true;}
+	private boolean checkHorizontal() {
 		
-		if(boardArr[3][1].player == boardArr[4][2].player && boardArr[4][2].player == boardArr[5][3].player && boardArr[5][3].player == boardArr[6][4].player && boardArr[6][4].player == currPlayer) {return true;}
-		if(boardArr[2][1].player == boardArr[3][2].player && boardArr[3][2].player == boardArr[4][3].player && boardArr[4][3].player == boardArr[5][4].player && boardArr[5][4].player == currPlayer) {return true;}
-		if(boardArr[1][1].player == boardArr[2][2].player && boardArr[2][2].player == boardArr[3][3].player && boardArr[3][3].player == boardArr[4][4].player && boardArr[4][4].player == currPlayer) {return true;}
-		if(boardArr[0][1].player == boardArr[1][2].player && boardArr[1][2].player == boardArr[2][3].player && boardArr[2][3].player == boardArr[3][4].player && boardArr[3][4].player == currPlayer) {return true;}
-		
-		if(boardArr[3][2].player == boardArr[4][3].player && boardArr[4][3].player == boardArr[5][4].player && boardArr[5][4].player == boardArr[6][5].player && boardArr[6][5].player == currPlayer) {return true;}
-		if(boardArr[2][2].player == boardArr[3][3].player && boardArr[3][3].player == boardArr[4][4].player && boardArr[4][4].player == boardArr[5][5].player && boardArr[5][5].player == currPlayer) {return true;}
-		if(boardArr[1][2].player == boardArr[2][3].player && boardArr[2][3].player == boardArr[3][4].player && boardArr[3][4].player == boardArr[4][5].player && boardArr[4][5].player == currPlayer) {return true;}
-		if(boardArr[0][2].player == boardArr[1][3].player && boardArr[1][3].player == boardArr[2][4].player && boardArr[2][4].player == boardArr[3][5].player && boardArr[3][5].player == currPlayer) {return true;}
-		
-		
-		if(boardArr[3][0].player == boardArr[2][1].player && boardArr[2][1].player == boardArr[1][2].player && boardArr[1][2].player == boardArr[0][3].player && boardArr[0][3].player == currPlayer) {return true;}
-		if(boardArr[4][0].player == boardArr[3][1].player && boardArr[3][1].player == boardArr[2][2].player && boardArr[2][2].player == boardArr[1][3].player && boardArr[1][3].player == currPlayer) {return true;}
-		if(boardArr[5][0].player == boardArr[4][1].player && boardArr[4][1].player == boardArr[3][2].player && boardArr[3][2].player == boardArr[2][3].player && boardArr[2][3].player == currPlayer) {return true;}
-		if(boardArr[6][0].player == boardArr[5][1].player && boardArr[5][1].player == boardArr[4][2].player && boardArr[4][2].player == boardArr[3][3].player && boardArr[3][3].player == currPlayer) {return true;}
-		
-		if(boardArr[3][1].player == boardArr[2][2].player && boardArr[2][2].player == boardArr[1][3].player && boardArr[1][3].player == boardArr[0][4].player && boardArr[0][4].player == currPlayer) {return true;}
-		if(boardArr[4][1].player == boardArr[3][2].player && boardArr[3][2].player == boardArr[2][3].player && boardArr[2][3].player == boardArr[1][4].player && boardArr[1][4].player == currPlayer) {return true;}
-		if(boardArr[5][1].player == boardArr[4][2].player && boardArr[4][2].player == boardArr[3][3].player && boardArr[3][3].player == boardArr[2][4].player && boardArr[2][4].player == currPlayer) {return true;}
-		if(boardArr[6][1].player == boardArr[5][2].player && boardArr[5][2].player == boardArr[4][3].player && boardArr[4][3].player == boardArr[3][4].player && boardArr[3][4].player == currPlayer) {return true;}
-		
-		if(boardArr[3][2].player == boardArr[2][3].player && boardArr[2][3].player == boardArr[1][4].player && boardArr[1][4].player == boardArr[0][5].player && boardArr[0][5].player == currPlayer) {return true;}
-		if(boardArr[4][2].player == boardArr[3][3].player && boardArr[3][3].player == boardArr[2][4].player && boardArr[2][4].player == boardArr[1][5].player && boardArr[1][5].player == currPlayer) {return true;}
-		if(boardArr[5][2].player == boardArr[4][3].player && boardArr[4][3].player == boardArr[3][4].player && boardArr[3][4].player == boardArr[2][5].player && boardArr[2][5].player == currPlayer) {return true;}
-		if(boardArr[6][2].player == boardArr[5][3].player && boardArr[5][3].player == boardArr[4][4].player && boardArr[4][4].player == boardArr[3][5].player && boardArr[3][5].player == currPlayer) {return true;}
-		
+		// Loops through the entire grid. if a row of 4 is found returns true
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j< 6; j++) {
+				
+				if(boardArr[i][j].player == currPlayer &&
+						boardArr[i][j].player == boardArr[i+1][j].player &&
+						boardArr[i][j].player == boardArr[i+2][j].player &&
+						boardArr[i][j].player == boardArr[i+3][j].player) {
+					
+					return true;
+				}
+			}
+		}
 		return false;
 	}
+
+	/*
+	 * Helper function of checkWin(). Checks the Diagonals and if there is a valid placement of one. 
+	 */
+	private boolean checkDiagonal() {
+		
+		// Checks Positive diagonals
+		for(int i = 0; i < 4; i++) {
+			for(int j = 0; j< 3; j++) { 
+				
+				if( boardArr[i][j].player == boardArr[i+1][j+1].player  && 
+						boardArr[i+1][j+1].player == boardArr[i+2][j+2].player && 
+						boardArr[i+2][j+2].player == boardArr[i+3][j+3].player && 
+						boardArr[i][j].player == currPlayer) {
+					
+						return true;
+					}
+				}
+			}
+		
+		// Checks Negative diagonals
+		for(int i = 0; i < 4; i++) {
+			for(int j = 5; j > 2; j--) { 
+				if( boardArr[i][j].player == boardArr[i+1][j-1].player  && 
+						boardArr[i][j].player == boardArr[i+2][j-2].player && 
+						boardArr[i][j].player == boardArr[i+3][j-3].player && 
+						boardArr[i][j].player == currPlayer) {
+					
+					return true;
+				}
+				
+			}
+		}
+		
+		return false;
+		}
 	
 	/*
 	 * Disables all buttons when a win condition is met, so that players can no longer press new buttons
@@ -165,6 +154,7 @@ public class Game {
 			for(int y = 0; y < 6; y++) {
 				
 				boardArr[x][y].pressed = true;
+				boardArr[x][y].setDisable(true);
 			}
 		}
 	}
@@ -179,6 +169,7 @@ public class Game {
 				
 				if(boardArr[x][y].player == 0) {
 					boardArr[x][y].pressed = false;
+					boardArr[x][y].setDisable(false);
 				}
 			}
 		}
@@ -202,17 +193,12 @@ public class Game {
 		moveNum = 0;
 		currPlayer = 1;
 	}
-
 	
 	/*
 	 * Getters and Setter for the Private Variables
 	 */
 	public void setArr(int x, int y, GameButton button) {
 		 boardArr[x][y] = button;
-	 }
-	public GameButton getArr(int x, int y) {
-		 
-		 return this.boardArr[x][y];
 	 }
 	public void setplayer(int turn) {
 		this.currPlayer = turn;

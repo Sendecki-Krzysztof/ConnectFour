@@ -46,52 +46,49 @@ public class GameController {
 	/*
 	 * Handles the button events for when a button is pressed
 	 */
-	public void buttonEvents(GameButton button) {
-		button.setOnAction(new EventHandler<ActionEvent>() {
+	public void buttonEvents(GameButton pressedButton) {
+		pressedButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+				GameButton button = connectFour.placeButton(pressedButton);
 				if(!button.pressed) {
-					if(connectFour.isValid(button)) {
-						button.setDisable(true);
-						button.pressed = true;
-						connectFour.moveNum += 1;
-						if(connectFour.getPlayer() == 1) {
+					button.setDisable(true);
+					button.pressed = true;
+					
+					
+					connectFour.moveNum += 1;
+					if(connectFour.getPlayer() == 1) {
+						
+						button.setStyle("-fx-background-color: " + p1Theme);
+						button.player = 1;
+						
+						
+						if(connectFour.checkWin()) {
+							text.setText(p1Name +" has won the game!");
+							connectFour.disableAllButtons();
+						} else if (connectFour.checkTie()){
+							text.setText("No more possible moves, the game is Tied!");
+						} else {
+							text.setText(p1Name +" has placed. Its " + p2Name +"'s turn!");
 							
-							button.setStyle("-fx-background-color: " + p1Theme);
-							button.player = 1;
-							
-							
-							if(connectFour.checkWin()) {
-								text.setText(p1Name +" has won the game!");
-								connectFour.disableAllButtons();
-							} else if (connectFour.checkTie()){
-								text.setText("No more possible moves, the game is Tied!");
-							} else {
-								text.setText(p1Name +" has placed. Its " + p2Name +"'s turn!");
-								
-							}
-							
-							connectFour.setplayer(2);
 						}
-						else {
-							
-							button.setStyle("-fx-background-color: " + p2Theme);
-							button.player = 2;
-							if(connectFour.checkWin()) {
-								text.setText(p2Name +" has won the game!");
-								connectFour.disableAllButtons();
-							} else if (connectFour.checkTie()){
-								text.setText("No more possible moves, the game is Tied!");
-							} else {
-								text.setText(p2Name +" has placed. Its " + p1Name +"'s turn!");
-							}
-							connectFour.setplayer(1);
-
-						}
+						
+						connectFour.setplayer(2);
 					}
 					else {
-						text.setText("Invaild move, try again Player " + connectFour.getPlayer());
+						
+						button.setStyle("-fx-background-color: " + p2Theme);
+						button.player = 2;
+						if(connectFour.checkWin()) {
+							text.setText(p2Name +" has won the game!");
+							connectFour.disableAllButtons();
+						} else if (connectFour.checkTie()){
+							text.setText("No more possible moves, the game is Tied!");
+						} else {
+							text.setText(p2Name +" has placed. Its " + p1Name +"'s turn!");
+						}
+						connectFour.setplayer(1);
+
 					}
 				} 
 			}

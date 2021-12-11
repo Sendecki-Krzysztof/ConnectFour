@@ -19,7 +19,7 @@ public class JavaFXTemplate extends Application {
 	private BorderPane root = new BorderPane();
 	private MenuBar menubar = new MenuBar();
 	private VBox vbox = new VBox();
-
+	
 	/*
 	 * Main...
 	 */
@@ -33,6 +33,7 @@ public class JavaFXTemplate extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Connect-Four");
+		primaryStage.getIcons().add(new Image("Icon.png"));
 		fillMenu(menubar);
 		
 		weclomeScreen(primaryStage);
