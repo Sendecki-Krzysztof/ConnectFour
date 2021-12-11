@@ -202,7 +202,7 @@ public class Game {
 		moveNum = 0;
 		currPlayer = 1;
 	}
-	
+
 	
 	/*
 	 * Getters and Setter for the Private Variables
