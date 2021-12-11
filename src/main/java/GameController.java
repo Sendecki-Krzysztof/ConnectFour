@@ -18,7 +18,7 @@ public class GameController {
 			+ "(In order to place a piece, it must be on the bottom of the board or have a piece under it)."
 			+ " Continue until either the board is filled up (a tie) or one of the players has succeeded in "
 			+ "connecting four of their color.";
-
+	
 	private String p1Name = "Red";
 	private String p2Name = "Blue";
 	private String p1Theme = "red";

@@ -11,7 +11,7 @@ public class Game {
 		this.boardArr = new GameButton[7][6];
 		this.pressOrder = new GameButton[42];
 	}
-
+	
 	/*
 	 * Method that checks if the pressed button is a valid move. This is done by checking if the
 	 * pressed button was in the bottom row, or if a button underneath it was pressed. If the move was valid

@@ -19,7 +19,7 @@ public class JavaFXTemplate extends Application {
 	private BorderPane root = new BorderPane();
 	private MenuBar menubar = new MenuBar();
 	private VBox vbox = new VBox();
-	
+
 	/*
 	 * Main...
 	 */
