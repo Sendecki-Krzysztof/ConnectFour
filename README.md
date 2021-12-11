@@ -28,15 +28,15 @@ So far I'm mainly working on refactoring my old code. When thats done I hope to 
 I'll be working on this whenever I have the time. Most likely it will be done in a month.
 ## Screenshots
 
-Default Theme
+Default Theme                                        
 ![App Screenshot](https://github.com/Sendecki-Krzysztof/ConnectFour/blob/main/images/Default_theme.PNG)
 
 
-Dark Theme
+Dark Theme                                              
 ![App Screenshot](https://github.com/Sendecki-Krzysztof/ConnectFour/blob/main/images/Dark_theme.PNG)
 
 
-Underground Theme
+Underground Theme                                          
 ![App Screenshot](https://github.com/Sendecki-Krzysztof/ConnectFour/blob/main/images/Underground_theme.PNG)
 ## Authors
 
