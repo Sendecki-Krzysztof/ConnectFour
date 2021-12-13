@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Game {
 	
@@ -5,6 +6,7 @@ public class Game {
 	private GameButton[] pressOrder;
 	private int currPlayer;
 	public int moveNum = 0;
+	public boolean playingAI = false;
 	
 	Game() {
 		this.currPlayer = 1;
@@ -25,7 +27,7 @@ public class Game {
 		addPressedButton(tempButton);
 		return tempButton;
 	}
-	
+
 	/*
 	 * Private Method for adding the pressed button into the press order array
 	 */
@@ -145,6 +147,31 @@ public class Game {
 		return false;
 		}
 	
+	
+	public GameButton AI() {
+		Random rand = new Random();
+		int min = 0;
+		int max = 6;
+		int randomRange = rand.nextInt(max - min + 1) + min;
+		while(boardArr[randomRange][0].pressed == true) {
+			
+			// System.out.print("Looking for not filled column... Ran =" + randomRange +"\n");
+			randomRange++; 
+			
+			if(randomRange == 7) {
+				randomRange = 0;
+			}
+		}
+		// System.out.print("RandRange =" + randomRange +"\n");
+		GameButton tempButton = boardArr[randomRange][0];
+		return tempButton;
+	}
+
+	public void AIButtonPress(GameButton button) {
+		
+		addPressedButton(button);
+	}
+	
 	/*
 	 * Disables all buttons when a win condition is met, so that players can no longer press new buttons
 	 */
@@ -153,7 +180,6 @@ public class Game {
 		for(int x = 0; x <7; x++) {
 			for(int y = 0; y < 6; y++) {
 				
-				boardArr[x][y].pressed = true;
 				boardArr[x][y].setDisable(true);
 			}
 		}

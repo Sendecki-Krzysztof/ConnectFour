@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -9,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -19,7 +21,7 @@ public class JavaFXTemplate extends Application {
 	private BorderPane root = new BorderPane();
 	private MenuBar menubar = new MenuBar();
 	private VBox vbox = new VBox();
-	
+
 	/*
 	 * Main...
 	 */
@@ -38,7 +40,7 @@ public class JavaFXTemplate extends Application {
 		
 		weclomeScreen(primaryStage);
 	}
-	
+
 	/*
 	 * Displays the Welcome Screen.
 	 */
@@ -46,14 +48,21 @@ public class JavaFXTemplate extends Application {
 		
 		BorderPane root = new BorderPane();
 		
-		Button playButton = setPlayButton(stage, new Button());
+		HBox buttonHolder = new HBox();
+		buttonHolder.setAlignment(Pos.CENTER);
+		
+		Button PlayerVsPlayer = setPlayButton(stage, new Button(), 50, 10, 10, 50, "Player VS Player");
+		Button PlayerVsAI = setPlayButton(stage, new Button(), 10, 50, 50, 10, "Player VS AI");
 
+		buttonHolder.getChildren().addAll(PlayerVsPlayer, PlayerVsAI);
+		HBox.setMargin(PlayerVsPlayer, new Insets(0,10,0,0));
+				
 		Image image = new Image("WelcomeScreen.png");
 		ImageView view = new ImageView(image);
 
 		root.setStyle("-fx-background-color: white");
 		root.setTop(view);
-		root.setCenter(playButton);
+		root.setCenter(buttonHolder);
 		
 		Scene scene = new Scene(root, 700,700);
 		stage.setResizable(false);
@@ -64,21 +73,41 @@ public class JavaFXTemplate extends Application {
 	/*
 	 * Helper function that Sets the Play button for WelcomeScreen
 	 */
-	private Button setPlayButton(Stage stage, Button button) {
+	private Button setPlayButton(Stage stage, Button button, int one, int two, int three, int four, String buttonText) {
 		
-		button.setMinSize(300, 100);
-		button.setStyle("-fx-background-color: #00bff3; -fx-background-radius: 100px; -fx-font-size:50; -fx-text-fill: white");
-		button.setText("Play");
-		button.setOnAction(e -> gameScreen(stage)); // pressing button changes stage to the game screen
+		button.setMinSize(200, 120);
+		button.setStyle("-fx-background-color: #00bff3; -fx-background-radius: " + one + " " + two + " " + three + " " + four + " ; -fx-text-fill: white; -fx-font-size:  24;");
+		HBox.setMargin(button, new Insets(0,10,0,10));
+		button.setText(buttonText);
+		
+		button.setOnAction(e -> playingAI(stage, button)); // pressing button changes stage to the game screen
+		
 		return button;
 	}
+	
+	/*
+	 *  Helper Function that checks if the AI button was pressed and changes to the game screen
+	 *  If the button was pressed sets playingAI to true.
+	 */
+	private void playingAI(Stage stage, Button button) {
+		
+		if(button.getText() == "Player VS AI") {
+			connectFour.playingAI = true;
+		}
+		gameScreen(stage);
+	}
+	
 	
 	/*
 	 * Screen that the game is in. Has as the game board and other menus
 	 */
 	private void gameScreen(Stage primaryStage) {
 		
-		
+		if(connectFour.playingAI == true) {
+			System.out.print("Playing AI: True" );
+		} else {
+			System.out.print("Playing AI: False" );
+		}
 		GridPane gameBoard = new GridPane();
 		
 		// GameBoard gap size

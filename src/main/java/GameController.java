@@ -48,53 +48,113 @@ public class GameController {
 	 */
 	public void buttonEvents(GameButton pressedButton) {
 		pressedButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				GameButton button = connectFour.placeButton(pressedButton);
-				if(!button.pressed) {
-					button.setDisable(true);
-					button.pressed = true;
+			
+		@Override
+		public void handle(ActionEvent event) {
+			GameButton button = connectFour.placeButton(pressedButton);
+				button.setDisable(true);
+				button.pressed = true;
+				connectFour.moveNum += 1;
+				
+				if(!connectFour.playingAI) {
 					
+					playerVSPlayer(button);
+				} else {
 					
-					connectFour.moveNum += 1;
-					if(connectFour.getPlayer() == 1) {
-						
-						button.setStyle("-fx-background-color: " + p1Theme);
-						button.player = 1;
-						
-						
-						if(connectFour.checkWin()) {
-							text.setText(p1Name +" has won the game!");
-							connectFour.disableAllButtons();
-						} else if (connectFour.checkTie()){
-							text.setText("No more possible moves, the game is Tied!");
-						} else {
-							text.setText(p1Name +" has placed. Its " + p2Name +"'s turn!");
-							
-						}
-						
-						connectFour.setplayer(2);
-					}
-					else {
-						
-						button.setStyle("-fx-background-color: " + p2Theme);
-						button.player = 2;
-						if(connectFour.checkWin()) {
-							text.setText(p2Name +" has won the game!");
-							connectFour.disableAllButtons();
-						} else if (connectFour.checkTie()){
-							text.setText("No more possible moves, the game is Tied!");
-						} else {
-							text.setText(p2Name +" has placed. Its " + p1Name +"'s turn!");
-						}
-						connectFour.setplayer(1);
-
-					}
-				} 
+					playerVSAI(button);
+				}
 			}
 		});
 	}
 
+	/*
+	 * Helper Method that Handles the gameboard if the player selected player VS. player on the welcome screen. 
+	 * This is designed to be played with a second person.
+	 */
+	private void playerVSPlayer(GameButton button) {
+			
+		if(connectFour.getPlayer() == 1) {
+			
+			button.setStyle("-fx-background-color: " + p1Theme);
+			button.player = 1;
+			
+			
+			if(connectFour.checkWin()) {
+				text.setText(p1Name +" has won the game!");
+				connectFour.disableAllButtons();
+			} else if (connectFour.checkTie()){
+				text.setText("No more possible moves, the game is Tied!");
+			} else {
+				text.setText(p1Name +" has placed. Its " + p2Name +"'s turn!");					
+			}
+			
+			connectFour.setplayer(2);
+		}
+		else {
+			
+			button.setStyle("-fx-background-color: " + p2Theme);
+			button.player = 2;
+			if(connectFour.checkWin()) {
+				text.setText(p2Name +" has won the game!");
+				connectFour.disableAllButtons();
+			} else if (connectFour.checkTie()){
+				text.setText("No more possible moves, the game is Tied!");
+			} else {
+				text.setText(p2Name +" has placed. Its " + p1Name +"'s turn!");
+			}
+			connectFour.setplayer(1);
+
+		}
+	} 
+		
+	private void playerVSAI(GameButton button) {
+		
+		if(connectFour.getPlayer() == 1) {
+			
+			button.setStyle("-fx-background-color: " + p1Theme);
+			button.player = 1;
+			
+			
+			if(connectFour.checkWin()) {
+				text.setText(p1Name +" has won the game!");
+				connectFour.disableAllButtons();
+			} else if (connectFour.checkTie()){
+				text.setText("No more possible moves, the game is Tied!");
+			} else {
+				text.setText(p1Name +" has placed. Its " + p2Name +"'s turn!");					
+			}
+			
+			connectFour.setplayer(2);
+			playAI(button);
+			
+		}
+	}
+	
+	private void playAI(GameButton button) {
+		
+		button = connectFour.placeButton(connectFour.AI());
+		
+		if(button != null) {
+			
+			connectFour.moveNum += 1;
+			button.setDisable(true);
+			button.pressed = true;
+			button.setStyle("-fx-background-color: " + p2Theme);
+			button.player = 2;
+			
+			if(connectFour.checkWin()) {
+				text.setText(p2Name +" has won the game!");
+				connectFour.disableAllButtons();
+			} else if (connectFour.checkTie()){
+				text.setText("No more possible moves, the game is Tied!");
+			} else {
+				text.setText(p2Name +" has placed. Its " + p1Name +"'s turn!");
+			}
+			connectFour.setplayer(1);
+		}
+	}
+	
+	
 	/*
 	 * Method to handle the events for the MenuItems in the Themes
 	 * menu within the MenuBar
@@ -209,6 +269,12 @@ public class GameController {
 						
 						connectFour.setplayer(2);
 						text.setText("Move Undone! Its " + p2Name +"'s turn!");
+						if(connectFour.playingAI) {
+							
+							connectFour.undoMove(buttonColor); 
+							connectFour.setplayer(1);
+							text.setText("Move Undone! Its " + p1Name +"'s turn!");
+						}
 					} else if (connectFour.getPlayer() == 2){
 						
 						connectFour.setplayer(1);
