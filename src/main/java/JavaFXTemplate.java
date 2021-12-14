@@ -97,7 +97,6 @@ public class JavaFXTemplate extends Application {
 		gameScreen(stage);
 	}
 	
-	
 	/*
 	 * Screen that the game is in. Has as the game board and other menus
 	 */

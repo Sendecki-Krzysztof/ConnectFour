@@ -1,19 +1,18 @@
-import java.util.Random;
-
 public class Game {
 	
 	private GameButton[][] boardArr;
 	private GameButton[] pressOrder;
 	private int currPlayer;
-	public int tempCurrPlayer;
 	public int moveNum = 0;
 	public boolean playingAI = false;
 	public boolean gameWon = false;
+	public AI ai;
 	
 	Game() {
 		this.currPlayer = 1;
 		this.boardArr = new GameButton[7][6];
 		this.pressOrder = new GameButton[42];
+		ai = new AI(boardArr, this);
 	}
 	
 	/*
@@ -26,8 +25,10 @@ public class Game {
 		return tempButton;
 	}
 	
-	
-	private GameButton validMove(GameButton button) {
+	/*
+	 * Checks to find the valid move in a given column. lets the player click any column to place down a piece.
+	 */
+	GameButton validMove(GameButton button) {
 		
 		GameButton temp = null;
 		
@@ -40,50 +41,7 @@ public class Game {
 		
 		return temp;
 	}
-	
-	
-	private GameButton checkWinAI(GameButton button) {
-		
 
-			button.player = getPlayer();
-			if(checkWin()) {
-				
-				//System.out.print("Win Found \n");
-				return button;
-			} 
-			
-		return null;
-	}
-	
-	
-	private GameButton checkLoseAI(GameButton button) {
-		
-		if(getPlayer() == 2) {
-			
-			tempCurrPlayer = 2;
-			setplayer(1);
-			button.player = 1;
-			if(checkWin()) {
-				
-				System.out.print("Found lose for player 2");
-				return button;
-			}
-		} else if(getPlayer() == 1) {
-			
-			tempCurrPlayer = 2;
-			setplayer(2);
-			button.player = 2;
-			if(checkWin()) {
-				
-				System.out.print("Found lose for player 2");
-				return button;
-			}
-		}
-
-		return null;
-	}
-	
-	
 	/*
 	 * Method that undoes the last move done on the game board
 	 */
@@ -174,67 +132,6 @@ public class Game {
 			return true;
 		}
 		return false;
-	}
-	
-	/*
-	 * Basic AI Picks a random number from 0-6 and places it into a row 
-	 */
-	public GameButton AI() {
-		Random rand = new Random();
-		int min = 0;
-		int max = 6;
-		int randomRange = rand.nextInt(max - min + 1) + min;
-		GameButton tempButton = null;
-		GameButton winButton = null;
-		GameButton preventLoseButton = null;
-		
-		for(int i = 0; i != max; i++) {
-			
-			if(validMove(boardArr[i][0]) != null) {
-				
-				winButton = checkWinAI(validMove(boardArr[i][0]));
-				validMove(boardArr[i][0]).player = 0;
-				if(winButton != null) {
-					
-					break;
-				}
-			}
-		}
-		
-		for(int i = 0; i != max; i++) {
-					
-				if(validMove(boardArr[i][0]) != null) {
-						
-				preventLoseButton = checkLoseAI(validMove(boardArr[i][0]));
-				setplayer(tempCurrPlayer);
-				validMove(boardArr[i][0]).player = 0;
-				if(preventLoseButton != null) {
-					
-					break;
-				}
-			}
-		}
-		
-		if(winButton != null) {
-			tempButton = winButton;
-		} else if (preventLoseButton != null) {
-			tempButton = preventLoseButton;
-		} else {
-			//System.out.print("TempButton was Null \n");
-			while(boardArr[randomRange][0].pressed == true) {
-				
-				// System.out.print("Looking for not filled column... Ran =" + randomRange +"\n");
-				randomRange++; 
-				
-				if(randomRange == 7) {
-					randomRange = 0;
-				}
-			}
-			// System.out.print("RandRange =" + randomRange +"\n");
-			tempButton = boardArr[randomRange][0];
-		}
-
-		return tempButton;
 	}
 	
 	/*

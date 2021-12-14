@@ -68,7 +68,7 @@ public class GameController {
 	}
 
 	/*
-	 * Helper Method that Handles the gameboard if the player selected player VS. player on the welcome screen. 
+	 * Helper Method that Handles the game board if the player selected player VS. player on the welcome screen. 
 	 * This is designed to be played with a second person.
 	 */
 	private void playerVSPlayer(GameButton button) {
@@ -106,7 +106,11 @@ public class GameController {
 
 		}
 	} 
-		
+	
+	/*
+	 * The variant of the game when the user clicks the player VS. AI option on the start menu. Its the same as PlayervsPlayer 
+	 * but after the player places a piece the AI places a piece.
+	 */
 	private void playerVSAI(GameButton button) {
 		
 		if(connectFour.getPlayer() == 1) {
@@ -130,9 +134,12 @@ public class GameController {
 		}
 	}
 	
+	/*
+	 * Handles the AI, how it places pieces etc.
+	 */
 	private void playAI(GameButton button) {
 		
-		button = connectFour.placeButton(connectFour.AI());
+		button = connectFour.placeButton(connectFour.ai.AIMoves());
 		if(button != null && !connectFour.gameWon) {
 			
 			connectFour.moveNum += 1;
@@ -152,7 +159,6 @@ public class GameController {
 			connectFour.setplayer(1);
 		}
 	}
-	
 	
 	/*
 	 * Method to handle the events for the MenuItems in the Themes
