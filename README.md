@@ -38,15 +38,15 @@ My plan is to start working on the client/server of this application, mostly bec
 At This point in development the AI is very simple. It will only check for potential wins and losses, if none are found it picks a random location on the board to place a piece. I might change this later to be more advanced using the minimax algorithm and heuristics.
 ## Screenshots
 
-Default Theme
+Default Theme                                                                                             
 ![App Screenshot](https://github.com/Sendecki-Krzysztof/ConnectFour/blob/main/images/Default_theme.PNG)
 
 
-Dark Theme
+Dark Theme                                                                                             
 ![App Screenshot](https://github.com/Sendecki-Krzysztof/ConnectFour/blob/main/images/Dark_theme.PNG)
 
 
-Underground Theme
+Underground Theme                                                                                         
 ![App Screenshot](https://github.com/Sendecki-Krzysztof/ConnectFour/blob/main/images/Underground_theme.PNG)
 ## Authors
 
