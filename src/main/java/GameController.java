@@ -125,16 +125,15 @@ public class GameController {
 			}
 			
 			connectFour.setplayer(2);
-			playAI(button);
 			
+			playAI(button);
 		}
 	}
 	
 	private void playAI(GameButton button) {
 		
 		button = connectFour.placeButton(connectFour.AI());
-		
-		if(button != null) {
+		if(button != null && !connectFour.gameWon) {
 			
 			connectFour.moveNum += 1;
 			button.setDisable(true);
