@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class JavaFXTemplate extends Application {
+public class Connect4GUI extends Application {
 
 	private Game connectFour = new Game();
 	private GameController gameController = new GameController(connectFour);
